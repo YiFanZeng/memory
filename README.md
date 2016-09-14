@@ -1,20 +1,31 @@
 http://write.blog.csdn.net/mdeditor#!postId=52503110
 # 需求
+
 - 情景需求：记忆力不好，许多事情不提醒容易忘记，需要每天都能够提醒，而现有的记事软件太过繁琐，每天一个邮件提醒是最方便的
 - 需求一：创建一个任务，在指定完成时间未完成的每天进行提醒，达到指定时间还未完成的任务需要顺延
 - 需求二：要求自己每天做一个总结和计划，第二天需要收到前15天的总结（仅仅是方便加深印象，在总结中可以贴出云笔记链接，方便随时查看）
 - 需求三：最好有web界面和APP方便操作，需要有一个公网ip，任何地方都能访问。
+
 # 设计
+
 ## 概要设计
+
 - 数据库设计
 - 逻辑设计
+
 ## 详细设计
+
 ![这里写图片描述](http://img.blog.csdn.net/20160911113607656)
+
 # 总结
+
 - 后台功能都已经实现，目前还没有Web界面，等有时间再引入web框架
 - 通过命令可以创建、查询、修改和删除任务或者总结，中间的操作就是编辑文本，详细操作可以看部署章节
+
 # 部署
+
 ##  新建database:memory; 新建tables: table_task, table_summary; 因为使用一次，手动执行了。
+
 ```
 MariaDB [memory]> show tables;
 +------------------+
@@ -54,7 +65,9 @@ MariaDB [memory]> desc table_summary;
 +----------+-----------+------+-----+-------------------+-----------------------------+
 5 rows in set (0.00 sec)
 ```
+
 ## 暂时没有设计配置文件，需要手动修改程序
+
 ### 修改数据库密码
 ```
 cat memory_general.py
@@ -66,7 +79,9 @@ def mariadb_cmd(cmd):
     mariadb_connection = mariadb.connect(user='memory', password='????????',
                                          database='memory')
 ```
+
 ### 修改邮件配置
+
 ```
 def send_email(mail_subject, mail_text):
     # 邮件需要显示发送方的地址
@@ -75,7 +90,9 @@ def send_email(mail_subject, mail_text):
     receivers = ['??????@icloud.com']
 # ...
 ```
+
 ## 程序分析，以及添加数据
+
 ```
 # 程序执行帮助
 [root@ip-172-31-26-104 memory]# python memory -h
@@ -147,6 +164,7 @@ plan =
 ```
 
 ## 创建memorySend命令
+
 ```
 [root@ip-172-31-26-104 ~]# cat /usr/bin/memorySend 
 #!/bin/sh
@@ -158,6 +176,7 @@ python memory send summary
 ```
 
 ## 创建定时任务，每天发送邮件
+
 ```
 [root@zengyifan memory]# crontab -e
 [root@zengyifan memory]# crontab -l
