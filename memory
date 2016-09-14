@@ -1,0 +1,72 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+import sys
+import memory_command as command
+
+msg = '''Usage:
+       python memory list task/summary
+       python memory show task/summary ID
+       python memory update task/summary
+       python memory new task/summary
+       python memory insert task/summary
+       python memory delete task/summary ID
+       python memory send task/summary'''
+par_len = len(sys.argv)
+if par_len == 3:
+    memory_operation = sys.argv[1]
+    memory_table = 'table_' + sys.argv[2]
+    ops = [memory_operation, memory_table]
+elif par_len == 4:
+    memory_operation = sys.argv[1]
+    memory_table = 'table_' + sys.argv[2]
+    memory_id = sys.argv[3]
+    ops = [memory_operation, memory_table, memory_id]
+else:
+    sys.exit(msg)
+
+def memory_list(table_name):
+    print 'memory_list'
+    command.command_memory_list(table_name)
+
+def memory_show(table_name, table_id):
+    print 'memory_show'
+    command.command_memory_show(table_name, table_id)
+
+def memory_new(table_name):
+    print 'memory_new'
+    command.command_memory_new(table_name)
+
+def memory_insert(table_name):
+    print 'memory_insert'
+    command.command_memory_insert(table_name)
+
+def memory_delete(table_name, table_id):
+    print 'memory_delete'
+    command.command_memory_delete(table_name, table_id)
+
+def memory_update(table_name):
+    print 'memory_update'
+    command.command_memory_update(table_name)
+
+def memory_send(table_name):
+    print 'memory_send'
+    command.command_memory_send(table_name)
+
+if __name__ == '__main__':
+    if ops[0] == 'list':
+        memory_list(ops[1])
+    elif ops[0] == 'show':
+        memory_show(ops[1], ops[2])
+    elif ops[0] == 'new':
+        memory_new(ops[1])
+    elif ops[0] == 'insert':
+        memory_insert(ops[1])
+    elif ops[0] == 'delete':
+        memory_delete(ops[1], ops[2])
+    elif ops[0] == 'update':
+        memory_update(ops[1])
+    elif ops[0] == 'send':
+        memory_send(ops[1])
+    else:
+        sys.exit(msg)
